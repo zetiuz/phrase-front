@@ -1,67 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:phrase/screens/login.dart';
+import "package:phrase/screens/register.dart";
+import "package:phrase/screens/home.dart";
+import 'package:provider/provider.dart';
+import 'package:phrase/services/api_url.dart';
+import 'package:phrase/providers/auth_provider.dart';
+import 'package:phrase/utilities/user_preferences.dart';
+import 'package:phrase/models/user.dart';
+import 'package:phrase/providers/user_provider.dart';
+
+const phrasePrimaryColor = Color.fromRGBO(0, 108, 78, 1.0);
+const String appTitle = "Phrase";
 
 void main() {
-  runApp(const MyApp());
+  runApp(const Phrase());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class Phrase extends StatelessWidget {
+  const Phrase({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: const Color.fromRGBO(0, 108, 78, 1.0),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+      ],
+      child: MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        title: appTitle,
+        theme: ThemeData(
+          useMaterial3: true,
+          colorSchemeSeed: phrasePrimaryColor,
+          fontFamily: 'InterTight',
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        initialRoute: '/login',
+        routes: {
+          '/login': (context) => const Login(),
+          '/register': (context) => const Register(),
+          '/home': (context) => const Home(),
+        },
       ),
     );
   }
