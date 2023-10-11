@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations_en.dart';
+import "package:phrase/screens/search.dart";
+import "package:phrase/screens/feed.dart";
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -27,9 +29,10 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      body: Center(
-        child: _buildBody(),
-      ),
+      body: //Center(
+          //child:
+          _buildBody(),
+      //),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
           setState(() {
@@ -67,13 +70,14 @@ class _HomeState extends State<Home> {
   Widget _buildBody() {
     switch (_selectedIndex) {
       case 0:
-        return Text('Esta es la pantalla de inicio');
+        return Feed();
       case 1:
         return Text('Esta es la pantalla de favoritos');
       case 2:
-        return Text('Esta es la pantalla de búsqueda');
+        return Search();
       default:
-        return Text('Esta es la pantalla de salida');
+        Navigator.pushReplacementNamed(context, '/login');
+        return Text('');
     }
   }
 }
